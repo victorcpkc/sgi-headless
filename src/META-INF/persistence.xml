@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="SGI-headlessPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>edu.uama.adsi.sgi.entidades.Evento</class>
+    <class>edu.uama.adsi.sgi.entidades.Software</class>
+    <class>edu.uama.adsi.sgi.entidades.Documento</class>
+    <class>edu.uama.adsi.sgi.entidades.Producto</class>
+    <class>edu.uama.adsi.sgi.entidades.Nivel</class>
+    <class>edu.uama.adsi.sgi.entidades.Articulo</class>
+    <class>edu.uama.adsi.sgi.entidades.TipoProducto</class>
+    <class>edu.uama.adsi.sgi.entidades.Usuario</class>
+    <class>edu.uama.adsi.sgi.entidades.Examen</class>
+    <class>edu.uama.adsi.sgi.entidades.Libro</class>
+    <class>edu.uama.adsi.sgi.entidades.Comprobante</class>
+    <class>edu.uama.adsi.sgi.entidades.Profesor</class>
+    <class>edu.uama.adsi.sgi.entidades.Taller</class>
+    <class>edu.uama.adsi.sgi.entidades.Curso</class>
+    <class>edu.uama.adsi.sgi.entidades.TipoComprobante</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sgi"/>
+      <property name="javax.persistence.jdbc.password" value="shrek"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="sgiuser"/>
+    </properties>
+  </persistence-unit>
+</persistence>

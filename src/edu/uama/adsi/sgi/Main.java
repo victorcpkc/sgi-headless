@@ -11,5 +11,8 @@ package edu.uama.adsi.sgi;
  * @author Víctor M. Campuzano Pineda, e-mail: victor_cp@vianca.mx
  */
 public class Main {
-
+    
+    public static void main(String[] args){
+        System.out.println("Hola mundo");
+    }
 }

@@ -6,6 +6,11 @@
 
 package edu.uama.adsi.sgi;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Víctor M. Campuzano Pineda, e-mail: victor_cp@vianca.mx
@@ -13,7 +18,20 @@ package edu.uama.adsi.sgi;
 public class Main {
     
     public static void main(String[] args){
-        System.out.println("Hola mundo");
-        System.out.println("Como estan");
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection conn = java.sql.DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/sgi",
+                    "sgiuser", "shrek");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -124,9 +124,9 @@ public class JdbcDocumento {
      * los métodos de este gestor.
      * 
      * *************** NOTA IMPORTANTE ****************
-     * Se supone que elejimos entidades que no tubieran relaciones porque
+     * Se supone que elegimos entidades que no tuvieran relaciones porque
      * se tendrían que insertar primero los registros de las relaciones.
-     * Cuando elejí esta clase no me fijé que tenía una relación con la clase
+     * Cuando elegí esta clase no me fijé que tenía una relación con la clase
      * Comprobante, así que no van a funcionar mis pruebas (la base de datos 
      * regresará una excepción de Non-valid Forgein Key), pero las suyas 
      * deberían verse muy similar.

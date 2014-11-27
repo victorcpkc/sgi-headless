@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package edu.uama.adsi.sgi.entidades;
 
@@ -12,17 +7,19 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,11 +27,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Clase entidad de productos.
+ * Es la super clase que contiene un registro de la tabla producto; no se 
+ * permite crear instancias de esta clase, solo de las clases hijas.
+ * Es una calse
+ * @see Articulo
+ * @see Libro
+ * @see Curso
+ * @see Taller
+ * @see Software
+ * @see Examen
  * @author Víctor M. Campuzano Pineda, e-mail: victor_cp@vianca.mx
  */
 @Entity
 @Table(name = "producto")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name="discriminador_producto")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p"),
@@ -42,7 +50,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Producto.findByTituloProducto", query = "SELECT p FROM Producto p WHERE p.tituloProducto = :tituloProducto"),
     @NamedQuery(name = "Producto.findByFechaProducto", query = "SELECT p FROM Producto p WHERE p.fechaProducto = :fechaProducto"),
     @NamedQuery(name = "Producto.findByDetalleProducto", query = "SELECT p FROM Producto p WHERE p.detalleProducto = :detalleProducto")})
-public class Producto implements Serializable {
+public abstract class Producto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,20 +69,8 @@ public class Producto implements Serializable {
     @Lob
     @Column(name = "notas_producto")
     private String notasProducto;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto")
-    private Taller taller;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto")
-    private Articulo articulo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoComprobante")
     private List<Comprobante> comprobanteList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto")
-    private Libro libro;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto")
-    private Software software;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto")
-    private Curso curso;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto")
-    private Examen examen;
     @JoinColumn(name = "tipo_producto_producto", referencedColumnName = "idtipo_producto")
     @ManyToOne(optional = false)
     private TipoProducto tipoProductoProducto;
@@ -135,22 +131,6 @@ public class Producto implements Serializable {
         this.notasProducto = notasProducto;
     }
 
-    public Taller getTaller() {
-        return taller;
-    }
-
-    public void setTaller(Taller taller) {
-        this.taller = taller;
-    }
-
-    public Articulo getArticulo() {
-        return articulo;
-    }
-
-    public void setArticulo(Articulo articulo) {
-        this.articulo = articulo;
-    }
-
     @XmlTransient
     public List<Comprobante> getComprobanteList() {
         return comprobanteList;
@@ -158,38 +138,6 @@ public class Producto implements Serializable {
 
     public void setComprobanteList(List<Comprobante> comprobanteList) {
         this.comprobanteList = comprobanteList;
-    }
-
-    public Libro getLibro() {
-        return libro;
-    }
-
-    public void setLibro(Libro libro) {
-        this.libro = libro;
-    }
-
-    public Software getSoftware() {
-        return software;
-    }
-
-    public void setSoftware(Software software) {
-        this.software = software;
-    }
-
-    public Curso getCurso() {
-        return curso;
-    }
-
-    public void setCurso(Curso curso) {
-        this.curso = curso;
-    }
-
-    public Examen getExamen() {
-        return examen;
-    }
-
-    public void setExamen(Examen examen) {
-        this.examen = examen;
     }
 
     public TipoProducto getTipoProductoProducto() {
@@ -217,15 +165,11 @@ public class Producto implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Producto)) {
             return false;
         }
         Producto other = (Producto) object;
-        if ((this.idproducto == null && other.idproducto != null) || (this.idproducto != null && !this.idproducto.equals(other.idproducto))) {
-            return false;
-        }
-        return true;
+        return (this.idproducto != null || other.idproducto == null) && (this.idproducto == null || this.idproducto.equals(other.idproducto));
     }
 
     @Override

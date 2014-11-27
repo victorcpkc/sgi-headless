@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package edu.uama.adsi.sgi.entidades;
 
@@ -10,28 +5,28 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Clase entidad de libro.
+ * Productos académicos con una estructura similar a libro.
+ * @see Producto
  * @author Víctor M. Campuzano Pineda, e-mail: victor_cp@vianca.mx
  */
 @Entity
 @Table(name = "libro")
+@DiscriminatorValue(value="libro")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Libro.findAll", query = "SELECT l FROM Libro l"),
-    @NamedQuery(name = "Libro.findByProductoLibro", query = "SELECT l FROM Libro l WHERE l.productoLibro = :productoLibro"),
     @NamedQuery(name = "Libro.findBySubtitiloLibro", query = "SELECT l FROM Libro l WHERE l.subtitiloLibro = :subtitiloLibro"),
     @NamedQuery(name = "Libro.findByColeccionLibro", query = "SELECT l FROM Libro l WHERE l.coleccionLibro = :coleccionLibro"),
     @NamedQuery(name = "Libro.findByEditorialLibro", query = "SELECT l FROM Libro l WHERE l.editorialLibro = :editorialLibro"),
@@ -43,12 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Libro.findByTirajeLibro", query = "SELECT l FROM Libro l WHERE l.tirajeLibro = :tirajeLibro"),
     @NamedQuery(name = "Libro.findByFechaAceptacionLibro", query = "SELECT l FROM Libro l WHERE l.fechaAceptacionLibro = :fechaAceptacionLibro"),
     @NamedQuery(name = "Libro.findByFechaPublicacionLibro", query = "SELECT l FROM Libro l WHERE l.fechaPublicacionLibro = :fechaPublicacionLibro")})
-public class Libro implements Serializable {
+public class Libro extends Producto implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "producto_libro")
-    private Integer productoLibro;
     @Column(name = "subtitilo_libro")
     private String subtitiloLibro;
     @Column(name = "coleccion_libro")
@@ -80,31 +71,20 @@ public class Libro implements Serializable {
     @Lob
     @Column(name = "coautores_libro")
     private String coautoresLibro;
-    @JoinColumn(name = "producto_libro", referencedColumnName = "idproducto", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Producto producto;
 
     public Libro() {
     }
 
-    public Libro(Integer productoLibro) {
-        this.productoLibro = productoLibro;
+    public Libro(Integer idproducto) {
+        super(idproducto);
     }
 
-    public Libro(Integer productoLibro, String editorialLibro, String paisLibro, String idiomaLibro, String isbnLibro) {
-        this.productoLibro = productoLibro;
+    public Libro(Integer idproducto, String editorialLibro, String paisLibro, String idiomaLibro, String isbnLibro) {
+        super(idproducto);
         this.editorialLibro = editorialLibro;
         this.paisLibro = paisLibro;
         this.idiomaLibro = idiomaLibro;
         this.isbnLibro = isbnLibro;
-    }
-
-    public Integer getProductoLibro() {
-        return productoLibro;
-    }
-
-    public void setProductoLibro(Integer productoLibro) {
-        this.productoLibro = productoLibro;
     }
 
     public String getSubtitiloLibro() {
@@ -203,37 +183,9 @@ public class Libro implements Serializable {
         this.coautoresLibro = coautoresLibro;
     }
 
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (productoLibro != null ? productoLibro.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Libro)) {
-            return false;
-        }
-        Libro other = (Libro) object;
-        if ((this.productoLibro == null && other.productoLibro != null) || (this.productoLibro != null && !this.productoLibro.equals(other.productoLibro))) {
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public String toString() {
-        return "edu.uama.adsi.sgi.entidades.Libro[ productoLibro=" + productoLibro + " ]";
+        return "edu.uama.adsi.sgi.entidades.Libro[ productoLibro=" + getIdproducto() + " ]";
     }
 
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package edu.uama.adsi.sgi.entidades;
 
@@ -10,8 +5,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
@@ -23,15 +18,17 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Clase entidad de articulo.
+ * Productos académicos con una estructura similar a articulo.
+ * @see Producto
  * @author Víctor M. Campuzano Pineda, e-mail: victor_cp@vianca.mx
  */
 @Entity
 @Table(name = "articulo")
+@DiscriminatorValue(value="articulo")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Articulo.findAll", query = "SELECT a FROM Articulo a"),
-    @NamedQuery(name = "Articulo.findByProductoArticulo", query = "SELECT a FROM Articulo a WHERE a.productoArticulo = :productoArticulo"),
     @NamedQuery(name = "Articulo.findBySubtituloArticulo", query = "SELECT a FROM Articulo a WHERE a.subtituloArticulo = :subtituloArticulo"),
     @NamedQuery(name = "Articulo.findByRevistaArticulo", query = "SELECT a FROM Articulo a WHERE a.revistaArticulo = :revistaArticulo"),
     @NamedQuery(name = "Articulo.findByCapituloArticulo", query = "SELECT a FROM Articulo a WHERE a.capituloArticulo = :capituloArticulo"),
@@ -44,12 +41,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Articulo.findByPaginaFinalArticulo", query = "SELECT a FROM Articulo a WHERE a.paginaFinalArticulo = :paginaFinalArticulo"),
     @NamedQuery(name = "Articulo.findByFechaPublicacionArticulo", query = "SELECT a FROM Articulo a WHERE a.fechaPublicacionArticulo = :fechaPublicacionArticulo"),
     @NamedQuery(name = "Articulo.findByFechaAceptacionArticulo", query = "SELECT a FROM Articulo a WHERE a.fechaAceptacionArticulo = :fechaAceptacionArticulo")})
-public class Articulo implements Serializable {
+public class Articulo extends Producto implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "producto_articulo")
-    private Integer productoArticulo;
     @Column(name = "subtitulo_articulo")
     private String subtituloArticulo;
     @Basic(optional = false)
@@ -85,33 +78,22 @@ public class Articulo implements Serializable {
     @Lob
     @Column(name = "coautores_articulo")
     private String coautoresArticulo;
-    @JoinColumn(name = "producto_articulo", referencedColumnName = "idproducto", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Producto producto;
 
     public Articulo() {
     }
 
-    public Articulo(Integer productoArticulo) {
-        this.productoArticulo = productoArticulo;
+    public Articulo(Integer idproducto) {
+        super(idproducto);
     }
 
-    public Articulo(Integer productoArticulo, String revistaArticulo, String idiomaArticulo, int paginaInicialArticulo, int paginaFinalArticulo, Date fechaPublicacionArticulo, Date fechaAceptacionArticulo) {
-        this.productoArticulo = productoArticulo;
+    public Articulo(Integer idproducto, String revistaArticulo, String idiomaArticulo, int paginaInicialArticulo, int paginaFinalArticulo, Date fechaPublicacionArticulo, Date fechaAceptacionArticulo) {
+        super(idproducto);
         this.revistaArticulo = revistaArticulo;
         this.idiomaArticulo = idiomaArticulo;
         this.paginaInicialArticulo = paginaInicialArticulo;
         this.paginaFinalArticulo = paginaFinalArticulo;
         this.fechaPublicacionArticulo = fechaPublicacionArticulo;
         this.fechaAceptacionArticulo = fechaAceptacionArticulo;
-    }
-
-    public Integer getProductoArticulo() {
-        return productoArticulo;
-    }
-
-    public void setProductoArticulo(Integer productoArticulo) {
-        this.productoArticulo = productoArticulo;
     }
 
     public String getSubtituloArticulo() {
@@ -218,37 +200,9 @@ public class Articulo implements Serializable {
         this.coautoresArticulo = coautoresArticulo;
     }
 
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (productoArticulo != null ? productoArticulo.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Articulo)) {
-            return false;
-        }
-        Articulo other = (Articulo) object;
-        if ((this.productoArticulo == null && other.productoArticulo != null) || (this.productoArticulo != null && !this.productoArticulo.equals(other.productoArticulo))) {
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public String toString() {
-        return "edu.uama.adsi.sgi.entidades.Articulo[ productoArticulo=" + productoArticulo + " ]";
+        return "edu.uama.adsi.sgi.entidades.Articulo[ productoArticulo=" + getIdproducto() + " ]";
     }
 
 }

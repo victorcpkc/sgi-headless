@@ -12,7 +12,6 @@ import javax.persistence.EntityManager;
 
 /**
  * Gestor de Tipos de produtos (Catálog de productos).
- * 
  * @author 
  */
 public class ServicioTipoProducto {

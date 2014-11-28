@@ -58,7 +58,7 @@ public class ServicioTipoComprobante {
     public List<Object[]> tablaTodos(){
         // Crear una nueva lista
         List<Object[]> tabla = new LinkedList();
-        // Recorrer todos los ementos de la lista obtenida con el método: listarTodos()
+        // Recorrer todos los elementos de la lista obtenida con el método: listarTodos()
         for(TipoComprobante tp: listarTodos()){
             // Añadir a la lista un nuevo renglon 
             tabla.add(new Object[]{tp.getIdtipoComprobante()
@@ -75,13 +75,13 @@ public class ServicioTipoComprobante {
      * @param objeto
      * @return 
      */
-    private TipoComprobante parse(Dictionary objeto){
+    public TipoComprobante parse(Dictionary objeto){
         // Busca un ID en el mapa
         Object value = objeto.get(ID);
         // Declaramos el objeto TipoComprobante
         TipoComprobante tc;
         // Si no encuentró un ID en el mapa, crea un nuevo objeto, sino, busca en la base de datos
-        if(value != null) tc = new TipoComprobante();
+        if(value == null) tc = new TipoComprobante();
         else tc = em.find(TipoComprobante.class, value);
         
         // Busca el resto de los atributos y si se encuentran los sobreescribe

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package edu.uama.adsi.sgi.entidades;
 
@@ -25,7 +20,7 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Clase entidad de Eventos o Alertas.
  * @author Víctor M. Campuzano Pineda, e-mail: victor_cp@vianca.mx
  */
 @Entity
@@ -34,8 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Evento.findAll", query = "SELECT e FROM Evento e"),
     @NamedQuery(name = "Evento.findByIdevento", query = "SELECT e FROM Evento e WHERE e.idevento = :idevento"),
-    @NamedQuery(name = "Evento.findByNombreEvento", query = "SELECT e FROM Evento e WHERE e.nombreEvento = :nombreEvento"),
-    @NamedQuery(name = "Evento.findByFechaEvento", query = "SELECT e FROM Evento e WHERE e.fechaEvento = :fechaEvento")})
+    @NamedQuery(name = "Evento.findByNombreEvento", query = "SELECT e FROM Evento e WHERE e.nombreEvento = :nombreEvento")
+})
 public class Evento implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,9 +42,13 @@ public class Evento implements Serializable {
     @Column(name = "nombre_evento")
     private String nombreEvento;
     @Basic(optional = false)
-    @Column(name = "fecha_evento")
+    @Column(name = "inicio_evento")
     @Temporal(TemporalType.DATE)
-    private Date fechaEvento;
+    private Date inicioEvento;
+    @Basic(optional = false)
+    @Column(name = "fin_evento")
+    @Temporal(TemporalType.DATE)
+    private Date finEvento;
     @Lob
     @Column(name = "descripcion_evento")
     private String descripcionEvento;
@@ -64,10 +63,16 @@ public class Evento implements Serializable {
         this.idevento = idevento;
     }
 
-    public Evento(Integer idevento, String nombreEvento, Date fechaEvento) {
+    public Evento(Integer idevento, String nombreEvento) {
         this.idevento = idevento;
         this.nombreEvento = nombreEvento;
-        this.fechaEvento = fechaEvento;
+    }
+
+    public Evento(Integer idevento, String nombreEvento, Date inicioEvento, Date finEvento) {
+        this.idevento = idevento;
+        this.nombreEvento = nombreEvento;
+        this.inicioEvento = inicioEvento;
+        this.finEvento = finEvento;
     }
 
     public Integer getIdevento() {
@@ -86,12 +91,20 @@ public class Evento implements Serializable {
         this.nombreEvento = nombreEvento;
     }
 
-    public Date getFechaEvento() {
-        return fechaEvento;
+    public Date getInicioEvento() {
+        return inicioEvento;
     }
 
-    public void setFechaEvento(Date fechaEvento) {
-        this.fechaEvento = fechaEvento;
+    public void setInicioEvento(Date inicioEvento) {
+        this.inicioEvento = inicioEvento;
+    }
+
+    public Date getFinEvento() {
+        return finEvento;
+    }
+
+    public void setFinEvento(Date finEvento) {
+        this.finEvento = finEvento;
     }
 
     public String getDescripcionEvento() {
@@ -119,15 +132,11 @@ public class Evento implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Evento)) {
             return false;
         }
         Evento other = (Evento) object;
-        if ((this.idevento == null && other.idevento != null) || (this.idevento != null && !this.idevento.equals(other.idevento))) {
-            return false;
-        }
-        return true;
+        return (this.idevento != null || other.idevento == null) && (this.idevento == null || this.idevento.equals(other.idevento));
     }
 
     @Override

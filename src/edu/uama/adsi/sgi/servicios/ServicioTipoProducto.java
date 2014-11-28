@@ -5,11 +5,9 @@ import edu.uama.adsi.sgi.entidades.TipoProducto;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 import javax.persistence.EntityManager;
 
 /**

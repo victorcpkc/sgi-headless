@@ -75,7 +75,7 @@ public class ServicioTipoComprobante {
      * @param objeto
      * @return 
      */
-    public TipoComprobante parse(Dictionary objeto){
+    private TipoComprobante parse(Dictionary objeto){
         // Busca un ID en el mapa
         Object value = objeto.get(ID);
         // Declaramos el objeto TipoComprobante
@@ -165,6 +165,30 @@ public class ServicioTipoComprobante {
      * @return Regresa una lista de los objetos que se borraron
      */
     public List<TipoComprobante> eliminar(Collection<Integer> llaves){
+        // Crear una nueva lista de objetos borrados
+        List<TipoComprobante> borrados = new LinkedList();
+        // Inicia una transacción con la base de datos
+        em.getTransaction().begin();
+        // Recorre todos las llaves en la lista objetos
+        for(Integer llave: llaves){
+            // Busca en la base de datos el objeto TipoComprobante
+            TipoComprobante tc = em.find(TipoComprobante.class, llave);
+            // Elimina el registro de la base de datos
+            em.remove(tc);
+            // Añade a la lista de borrados el objeto
+            borrados.add(tc);
+        }
+        // Termina la transacción con la base de datos
+        em.getTransaction().commit();
+        return borrados; 
+    }
+    
+    /**
+     * Elimina una lista de registros de la base de datos.
+     * @param llaves Arreglo de Integer con las llaves de los registros
+     * @return Regresa una lista de los objetos que se borraron
+     */
+    public List<TipoComprobante> eliminar(Integer[] llaves){
         // Crear una nueva lista de objetos borrados
         List<TipoComprobante> borrados = new LinkedList();
         // Inicia una transacción con la base de datos

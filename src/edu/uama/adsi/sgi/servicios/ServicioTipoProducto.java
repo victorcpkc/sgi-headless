@@ -157,13 +157,13 @@ public class ServicioTipoProducto {
      * @param nombre Nombre del tipo de producto (no puede ser null)
      * @param puntaje Puntaje del tipo de producto (no puede ser null)
      */
-    public void modificar(String id, String nombre, String puntaje){
+    public void modificar(String id, String nombre, double puntaje){
         //Crea un nuevo objeto TipoProducto
         TipoProducto tp = em.find(TipoProducto.class, id);
         //Actualizamos el valor del atributo nombre
         tp.setNombreTipoProducto(nombre);
         //Actualizamos el valor del atributo puntaje
-        tp.setPuntajeTipoProducto(puntaje);//no supe como arreglar este error
+        tp.setPuntajeTipoProducto(puntaje);
         //Inicia un transacción con la base de datos
         em.getTransaction().begin();
         //Guarda el objeto nuevo en base de datos
